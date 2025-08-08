@@ -218,7 +218,7 @@ TEST_F(CcspHomeSecurityHnapdTestFixture, CcspHomeSecurity_main_FAIL_2) {
     char *argv[] = {arg1, arg2};
     int argc = 2;
 
-    EXPECT_CALL(*g_syscfgMock, syscfg_init()).WillOnce(Return(0));
+    //EXPECT_CALL(*g_syscfgMock, syscfg_init()).WillOnce(Return(0));
     EXPECT_CALL(*g_socketMock, socket(_, _, _)).WillOnce(Return(-1));
 
     int result = CcspHomeSecurity_main(argc, argv);
@@ -232,7 +232,7 @@ TEST_F(CcspHomeSecurityHnapdTestFixture, CcspHomeSecurity_main_FAIL_3) {
     int argc = 2;
     char mockIP[] = "172.16.12.1\n";
 
-    EXPECT_CALL(*g_syscfgMock, syscfg_init()).Times(1).WillOnce(Return(0));
+    //EXPECT_CALL(*g_syscfgMock, syscfg_init()).Times(1).WillOnce(Return(0));
     EXPECT_CALL(*g_socketMock, socket(_, _, _)).Times(1).WillOnce(Return(1));
     EXPECT_CALL(*g_securewrapperMock, v_secure_popen(_, HasSubstr("ifconfig brlan1") , _)).Times(1).WillOnce(Return((FILE*)0x1));
     EXPECT_CALL(*g_fileIOMock, fgets(_, _, _))
@@ -254,7 +254,7 @@ TEST_F(CcspHomeSecurityHnapdTestFixture, CcspHomeSecurity_main_FAIL_4) {
     int argc = 2;
     char mockIP[] = "172.16.12.266";
 
-    EXPECT_CALL(*g_syscfgMock, syscfg_init()).Times(1).WillOnce(Return(0));
+    //EXPECT_CALL(*g_syscfgMock, syscfg_init()).Times(1).WillOnce(Return(0));
     EXPECT_CALL(*g_socketMock, socket(_, _, _)).Times(1).WillOnce(Return(1));
     EXPECT_CALL(*g_securewrapperMock, v_secure_popen(_, HasSubstr("ifconfig brlan1") , _)).Times(1).WillOnce(Return((FILE*)0x1));
     EXPECT_CALL(*g_fileIOMock, fgets(_, _, _))
@@ -275,7 +275,7 @@ TEST_F(CcspHomeSecurityHnapdTestFixture, CcspHomeSecurity_main_FAIL_5) {
     char *argv[] = {arg1, arg2};
     int argc = 2;
 
-    EXPECT_CALL(*g_syscfgMock, syscfg_init()).Times(1).WillOnce(Return(0));
+    //EXPECT_CALL(*g_syscfgMock, syscfg_init()).Times(1).WillOnce(Return(0));
     EXPECT_CALL(*g_socketMock, socket(_, _, _)).Times(1).WillOnce(Return(1));
     EXPECT_CALL(*g_securewrapperMock, v_secure_popen(_, HasSubstr("ifconfig brlan1") , _)).Times(1).WillOnce(Return((FILE*)0x1));
     EXPECT_CALL(*g_fileIOMock, fgets(_, _, _)).Times(1).WillOnce(Return(nullptr));
@@ -291,7 +291,7 @@ TEST_F(CcspHomeSecurityHnapdTestFixture, CcspHomeSecurity_main_FAIL_6) {
     char *argv[] = {arg1, arg2};
     int argc = 2;
 
-    EXPECT_CALL(*g_syscfgMock, syscfg_init()).Times(1).WillOnce(Return(0));
+    //EXPECT_CALL(*g_syscfgMock, syscfg_init()).Times(1).WillOnce(Return(0));
     EXPECT_CALL(*g_socketMock, socket(_, _, _)).Times(1).WillOnce(Return(1));
     EXPECT_CALL(*g_securewrapperMock, v_secure_popen(_, HasSubstr("ifconfig brlan1") , _)).Times(1).WillOnce(Return(nullptr));
 
