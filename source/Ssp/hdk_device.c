@@ -1310,7 +1310,8 @@ int HDK_Device_GetValue(void* pDeviceCtx, HDK_Struct* pStruct, HDK_DeviceValue e
                 HDK_Set_PN_WiFiSecurity(pStruct, HDK_Element_PN_Type, HDK_Enum_PN_WiFiSecurity_WPA_Personal);
 
                 snprintf(tmpPath, sizeof(tmpPath), "%s.Security.X_COMCAST-COM_KeyPassphrase", pathVal);
-                strcpy(val, "WPA-");
+                /* Coverity Fix : CID 66233 Calling risky function */
+                snprintf(val, sizeof(val), "WPA-");
                 if (MBus_GetParamVal(mbus, tmpPath, val + strlen(val), sizeof(val) - strlen(val)) != 0)
                     return 0;
 
@@ -2086,7 +2087,7 @@ int HDK_Device_GetValue(void* pDeviceCtx, HDK_Struct* pStruct, HDK_DeviceValue e
             for (i = 0; i < insNum; i++)
             {
                 /* CID 56405 Array compared against 0 */
-		if (insPath[i][0] != '\0')
+                if (strlen(insPath[i]) > 0)
                 {
                     printf("insPath[%d] = %s\n\n", i, insPath[i]);
                     break;
@@ -2114,7 +2115,7 @@ int HDK_Device_GetValue(void* pDeviceCtx, HDK_Struct* pStruct, HDK_DeviceValue e
             for (i = 0; i < insNum; i++)
             {
                 /*CID 56405 Array compared against 0 */
-		if (insPath[i][0] != '\0')
+                if (strlen(insPath[i]) > 0)
                 {
                     printf("insPath[%d] = %s\n\n", i, insPath[i]);
                     break;
@@ -2308,7 +2309,8 @@ int HDK_Device_SetValue(void* pDeviceCtx, HDK_DeviceValue eValue, HDK_Struct* pS
                 if (MBus_GetParamVal(mbus, tmpPath, val, sizeof(val)) != 0)
                     return 0;
                 
-				if(atoi(val) == *intVal)
+                /* Coverity Fix CID : 53375, Dereference null return value */
+		        if (intVal != NULL && atoi(val) == *intVal)
                 {
                     //hnap only support tcp or udp not both
                     snprintf(tmpPath, sizeof(tmpPath), "%sProtocol", insPath[i]);
