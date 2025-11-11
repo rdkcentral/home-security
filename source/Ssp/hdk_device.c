@@ -2141,7 +2141,8 @@ int HDK_Device_GetValue(void* pDeviceCtx, HDK_Struct* pStruct, HDK_DeviceValue e
             /* find the first available Client instance */
             for (i = 0; i < insNum; i++)
             {
-                if (insPath[i] != NULL)
+                /* CID 71948 Logically dead code */
+                if (insPath[i][0] != '\0')
                 {
                     printf("insPath[%d] = %s\n\n", i, insPath[i]);
                     break;
@@ -2289,6 +2290,12 @@ int HDK_Device_SetValue(void* pDeviceCtx, HDK_DeviceValue eValue, HDK_Struct* pS
 				log_printf(LOG_ERR, "Get port mapping rules failed\n");
                 return 0;
 			}
+            /* Coverity Fix CID : 53375, Dereference null return value */
+            if (intVal == NULL)
+            {
+                log_printf(LOG_ERR, "Invalid internal mapping port\n");
+                return 0;
+            }
 
             for (i = 0; i < insNum; i++)
             {
@@ -2309,12 +2316,6 @@ int HDK_Device_SetValue(void* pDeviceCtx, HDK_DeviceValue eValue, HDK_Struct* pS
                 if (MBus_GetParamVal(mbus, tmpPath, val, sizeof(val)) != 0)
                     return 0;
                 
-                /* Coverity Fix CID : 53375, Dereference null return value */
-                if (intVal == NULL) {
-                   fprintf(stderr, "intVal pointer is NULL at line %d\n", __LINE__);
-                   continue;
-                }
-
 		        if (atoi(val) == *intVal)
                 {
                     //hnap only support tcp or udp not both
@@ -2411,7 +2412,7 @@ int HDK_Device_SetValue(void* pDeviceCtx, HDK_DeviceValue eValue, HDK_Struct* pS
 				LoadMBusParam(paramsSet, &paramOff, "ExternalPortEndRange", val, MBUS_PT_UINT);
 
                 intVal = HDK_Get_Int(pStruct, HDK_Element_PN_InternalPort);
-				if (*intVal == 0)
+                if (intVal == NULL) 
 				{
 					log_printf(LOG_ERR, "Invalid internal mapping port\n");
 					return 0;
