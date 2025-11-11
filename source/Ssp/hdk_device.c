@@ -1311,7 +1311,7 @@ int HDK_Device_GetValue(void* pDeviceCtx, HDK_Struct* pStruct, HDK_DeviceValue e
 
                 snprintf(tmpPath, sizeof(tmpPath), "%s.Security.X_COMCAST-COM_KeyPassphrase", pathVal);
                 /* Coverity Fix : CID 66233 Calling risky function */
-                snprintf(val, sizeof(val), "WPA-");
+                snprintf(val, sizeof(val), "%s", "WPA-");
                 if (MBus_GetParamVal(mbus, tmpPath, val + strlen(val), sizeof(val) - strlen(val)) != 0)
                     return 0;
 
@@ -2087,7 +2087,7 @@ int HDK_Device_GetValue(void* pDeviceCtx, HDK_Struct* pStruct, HDK_DeviceValue e
             for (i = 0; i < insNum; i++)
             {
                 /* CID 56405 Array compared against 0 */
-                if (strlen(insPath[i]) > 0)
+                if (insPath[i][0] != '\0')
                 {
                     printf("insPath[%d] = %s\n\n", i, insPath[i]);
                     break;
