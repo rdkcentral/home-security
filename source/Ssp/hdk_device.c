@@ -2310,7 +2310,12 @@ int HDK_Device_SetValue(void* pDeviceCtx, HDK_DeviceValue eValue, HDK_Struct* pS
                     return 0;
                 
                 /* Coverity Fix CID : 53375, Dereference null return value */
-		        if (intVal != NULL && atoi(val) == *intVal)
+                if (intVal == NULL) {
+                   fprintf(stderr, "intVal pointer is NULL at line %d\n", __LINE__);
+                   continue;
+                }
+
+		        if (atoi(val) == *intVal)
                 {
                     //hnap only support tcp or udp not both
                     snprintf(tmpPath, sizeof(tmpPath), "%sProtocol", insPath[i]);
