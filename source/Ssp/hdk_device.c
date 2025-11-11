@@ -2115,7 +2115,7 @@ int HDK_Device_GetValue(void* pDeviceCtx, HDK_Struct* pStruct, HDK_DeviceValue e
             for (i = 0; i < insNum; i++)
             {
                 /*CID 56405 Array compared against 0 */
-                if (strlen(insPath[i]) > 0)
+                if (insPath[i][0] != '\0')
                 {
                     printf("insPath[%d] = %s\n\n", i, insPath[i]);
                     break;
