@@ -37,12 +37,17 @@ protected:
 };
 
 TEST_F(CcspHomeSecurityHDKAdiFixture, HDK_Method_PN_SetBridgeConnect) {
+    printf("HDK_Method_PN_SetBridgeConnect\n");
     HDK_Context* mockCtx = createMockHDK_Context();
+    ASSERT_NE(mockCtx, nullptr);
+
     HDK_Struct* pInput = (HDK_Struct*)malloc(sizeof(HDK_Struct));
     ASSERT_NE(pInput, nullptr);
+    memset(pInput, 0, sizeof(HDK_Struct));
 
     HDK_Struct* pOutput = (HDK_Struct*)malloc(sizeof(HDK_Struct));
     ASSERT_NE(pOutput, nullptr);
+    memset(pOutput, 0, sizeof(HDK_Struct));
 
     HDK_Member__INT__* pMember1 = (HDK_Member__INT__*) malloc(sizeof(HDK_Member__INT__));
     ASSERT_NE(pMember1, nullptr);
@@ -55,7 +60,11 @@ TEST_F(CcspHomeSecurityHDKAdiFixture, HDK_Method_PN_SetBridgeConnect) {
     pInput->pHead = (HDK_Member*)pMember1;
     pInput->pTail = (HDK_Member*)pMember1;
 
+    printf("Calling HDK_Method_PN_SetBridgeConnect\n");
+
     HDK_Method_PN_SetBridgeConnect(mockCtx, pInput, pOutput);
+
+    printf("HDK_Method_PN_SetBridgeConnect completed\n");
 
     free(pMember1);
     free(pInput);
