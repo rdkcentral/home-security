@@ -803,7 +803,8 @@ int HDK_Device_GetValue(void* pDeviceCtx, HDK_Struct* pStruct, HDK_DeviceValue e
                     return 0;
 
                 /* DeviceName */
-                snprintf(tmpPath, sizeof(tmpPath), "%s", insPath[i]);
+                /* Coverity Fix : UNINIT */
+                snprintf(tmpBuf, sizeof(tmpBuf), "%s", insPath[i]);
                 snprintf(tmpPath, sizeof(tmpPath), "%sX_CISCO_COM_DeviceName", tmpBuf);
                 if (MBus_GetParamVal(mbus, tmpPath, val, sizeof(val)) != 0)
                     return 0;
@@ -2730,7 +2731,8 @@ int HDK_Device_SetValue(void* pDeviceCtx, HDK_DeviceValue eValue, HDK_Struct* pS
                 tmp = HDK_Get_Int(pStruct, HDK_Element_PN_SecondaryChannel);
 				intVal = HDK_Get_Int(pStruct, HDK_Element_PN_Channel);
 
-                if (tmp == NULL)
+                /* Coverity Fix : NULL_RETURNS */
+                if (tmp == NULL || intVal == NULL)
                     return 0;
 
 				if (*tmp == 0)
