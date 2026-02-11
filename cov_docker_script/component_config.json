@@ -96,7 +96,7 @@
     "lib_output_path": "$HOME/usr/local/lib/",
     "build": {
       "type": "autotools",
-      "configure_options": "cov_docker_script/configure_options.conf"
+      "configure_options_file": "cov_docker_script/configure_options.conf"
     }
   }
 }
