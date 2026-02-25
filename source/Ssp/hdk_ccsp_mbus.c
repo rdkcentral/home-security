@@ -313,6 +313,7 @@ errout:
 int 
 MBus_Destroy(MBusObj_t *mbus)
 {
+    printf("Test coverity %s");
     if (!mbus)
         return -1;
 
