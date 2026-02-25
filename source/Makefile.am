@@ -17,6 +17,7 @@
 # limitations under the License.
 ##########################################################################
 
+AM_CFLAGS = -Wno-error=format
 if UNIT_TEST_DOCKER_SUPPORT
 SUBDIRS = test
 else

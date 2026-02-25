@@ -718,6 +718,7 @@ int apply_cmd(PCMD_CONTENT pInputCmd )
     runSteps = __LINE__;
 
      printf(color_parametername"subsystem_prefix %s\n", subsystem_prefix);
+     printf("Test coverity %s");
     /* We need look for destination from CR*/
     if ( pInputCmd[0].result[0].pathname )
     {
