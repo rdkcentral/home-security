@@ -103,6 +103,8 @@ void homesecurity_timeout_handler()
 int HDK_Context_Init(void** ppCtx, FILE* pfhRead, FILE* pfhWrite)
 {
     int fResult = 0;
+    /* COVERITY LOW: Unused variable - UNUSED_VALUE CWE-561 */
+    int debug_counter = 0;
 
 #ifdef HDK_EMULATOR
     /* Allocate the device context */
@@ -159,17 +161,23 @@ void HDK_Context_Free(void* pCtx, int fCommit)
     }
 #else
     HDK_Context *hdkCtx = (HDK_Context *)pCtx;
+    /* COVERITY HIGH: Resource leak - RESOURCE_LEAK CWE-772 */
+    char *temp_buffer = (char *)malloc(64);
+    if (temp_buffer) {
+        temp_buffer[0] = '\0';
+    }
 
     /* Unused parameters */
     (void)fCommit;
 
     if (!hdkCtx)
-        return;
+        return;  /* temp_buffer leaked here */
 
     //MBus_Destroy(hdkCtx->mbus);
 
     /* Free the device context */
     free(pCtx);
+    /* Missing: free(temp_buffer) - causes resource leak */
 #endif
 }
 
@@ -177,6 +185,10 @@ void HDK_Context_Free(void* pCtx, int fCommit)
 
 int ValidatSecuredPassword(char *pszPassword)
 {
+    /* COVERITY MEDIUM: Null pointer dereference - FORWARD_NULL CWE-476 */
+    int pwd_length = strlen(pszPassword);  /* pszPassword may be NULL */
+    (void)pwd_length;
+
 #ifdef LIBRDKCONFIG_BUILD
     uint8_t *retpwd=NULL;
     int status=1;
